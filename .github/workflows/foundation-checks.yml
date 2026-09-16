@@ -1,0 +1,45 @@
+name: Foundation checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  repository-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify required project documents
+        shell: bash
+        run: |
+          required_files=(
+            README.md
+            CONTRIBUTING.md
+            SECURITY.md
+            docs/PRODUCT_REQUIREMENTS.md
+            docs/ARCHITECTURE.md
+            docs/ROADMAP.md
+            docs/THREAT_MODEL.md
+          )
+
+          for file in "${required_files[@]}"; do
+            test -s "$file" || {
+              echo "::error file=$file::Required document is missing or empty."
+              exit 1
+            }
+          done
+
+      - name: Reject committed environment secrets
+        shell: bash
+        run: |
+          if git ls-files | grep -E '(^|/)\.env($|\.)' | grep -vE '(^|/)\.env\.example$'; then
+            echo "::error::A local environment file appears to be tracked."
+            exit 1
+          fi
