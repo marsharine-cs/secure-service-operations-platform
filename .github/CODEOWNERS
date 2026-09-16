@@ -1,0 +1,7 @@
+# Default owner for project changes
+* @marsharine-cs
+
+# Security and delivery-sensitive areas
+/.github/ @marsharine-cs
+/infra/ @marsharine-cs
+/SECURITY.md @marsharine-cs
