@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build and test output
+dist/
+build/
+coverage/
+.pytest_cache/
+.vite/
+.next/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and runtime data
+*.log
+logs/
+tmp/
+data/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Infrastructure
+.terraform/
+*.tfstate
+*.tfstate.*
+cdk.out/
