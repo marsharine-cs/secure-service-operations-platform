@@ -1,0 +1,50 @@
+name: Issue triage report
+
+on:
+  schedule:
+    - cron: '17 9 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out report generator
+        uses: actions/checkout@v4
+
+      - name: Check report generation
+        run: node --test .github/scripts/issue-triage.test.cjs
+
+      - name: Read issues and write report
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { writeFileSync } = require('node:fs');
+            const { join } = require('node:path');
+            const { buildReport } = require('./.github/scripts/issue-triage.cjs');
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              ...context.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const report = buildReport({
+              issues,
+              repository: `${context.repo.owner}/${context.repo.repo}`,
+              now: new Date(),
+            });
+
+            writeFileSync(join(process.env.RUNNER_TEMP, 'issue-triage.md'), report);
+            await core.summary.addRaw(report).write();
+
+      - name: Publish Markdown report
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue-triage-report
+          path: ${{ runner.temp }}/issue-triage.md
+          if-no-files-found: error
+          retention-days: 30
