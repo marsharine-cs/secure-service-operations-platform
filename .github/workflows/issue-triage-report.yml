@@ -42,7 +42,7 @@ jobs:
             await core.summary.addRaw(report).write();
 
       - name: Publish Markdown report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: issue-triage-report
           path: ${{ runner.temp }}/issue-triage.md
