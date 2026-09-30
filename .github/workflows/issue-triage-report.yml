@@ -20,7 +20,7 @@ jobs:
         run: node --test .github/scripts/issue-triage.test.cjs
 
       - name: Read issues and write report
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const { writeFileSync } = require('node:fs');
