@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+  - "services/*"
+  - "packages/*"
+  ootstrap-monorepo) $ git status --short     git status --short
+?? pnpm-workspace.yaml
+@marsharine-cs ➜ /workspaces/secure-service-operations-platform (chore/1-b
+ootstracat package.jsont package.json
+cat: package.json: No such file or directory
+@marsharine-cs ➜ /workspaces/secure-service-operations-platform (chore/1-b
+ootstrap-monorepo) $ 
